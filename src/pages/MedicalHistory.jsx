@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ArrowLeft, Calendar, Clock, AlertTriangle, MessageCircle, Trash2, Download, Filter, ChevronDown, RotateCcw, FileText } from 'lucide-react';
+import { ChevronDown, ChevronRight, RotateCcw, FileText, Download, Trash2, MessageSquare } from 'lucide-react';
 import { useAuth } from '../contexts/FirebaseAuthContext';
 import SunIcon from '../components/SunIcon';
 import { exportMedicalHistoryToPDF, exportSingleConversationToPDF } from '../utils/pdfExport';
@@ -10,31 +10,26 @@ const MedicalHistory = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { user, userProfile, getMedicalHistory, deleteMedicalEntry, isAuthenticated } = useAuth();
-  
+
   const [medicalHistory, setMedicalHistory] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [selectedEntry, setSelectedEntry] = useState(null);
-  const [filter, setFilter] = useState('all'); // 'all', 'recent', 'urgent'
+  const [filter, setFilter] = useState('all');
   const [lastDocument, setLastDocument] = useState(null);
   const [hasMore, setHasMore] = useState(true);
   const [totalCount, setTotalCount] = useState(0);
 
-  // Redirect if not authenticated
   useEffect(() => {
-    if (!isAuthenticated) {
-      navigate('/auth');
-    }
+    if (!isAuthenticated) navigate('/auth');
   }, [isAuthenticated, navigate]);
 
-  // Load initial medical history
   useEffect(() => {
     loadMedicalHistory(true);
   }, []);
 
   const loadMedicalHistory = async (isInitial = false) => {
     if (!isAuthenticated) return;
-    
     if (isInitial) {
       setIsLoading(true);
       setMedicalHistory([]);
@@ -43,22 +38,14 @@ const MedicalHistory = () => {
     } else {
       setIsLoadingMore(true);
     }
-
     try {
       const result = await getMedicalHistory(20, isInitial ? null : lastDocument);
-      
       if (result.success) {
-        if (isInitial) {
-          setMedicalHistory(result.entries);
-        } else {
-          setMedicalHistory(prev => [...prev, ...result.entries]);
-        }
-        
+        if (isInitial) setMedicalHistory(result.entries);
+        else setMedicalHistory(prev => [...prev, ...result.entries]);
         setLastDocument(result.lastDocument);
         setHasMore(result.hasMore);
         setTotalCount(prev => isInitial ? result.entries.length : prev + result.entries.length);
-      } else {
-        console.error('Failed to load medical history:', result.error);
       }
     } catch (err) {
       console.error('Error loading medical history:', err);
@@ -68,397 +55,298 @@ const MedicalHistory = () => {
     }
   };
 
-  // Delete entry
   const handleDeleteEntry = async (entryId) => {
-    if (!confirm('Are you sure you want to delete this conversation?')) return;
-    
+    if (!confirm('Delete this conversation?')) return;
     try {
       const result = await deleteMedicalEntry(entryId);
       if (result.success) {
-        setMedicalHistory(prev => prev.filter(entry => entry.id !== entryId));
+        setMedicalHistory(prev => prev.filter(e => e.id !== entryId));
         setTotalCount(prev => prev - 1);
       } else {
         alert('Failed to delete conversation');
       }
     } catch (err) {
       console.error('Error deleting entry:', err);
-      alert('Failed to delete conversation');
     }
   };
 
-  // Load more entries
-  const loadMore = () => {
-    if (!isLoadingMore && hasMore) {
-      loadMedicalHistory(false);
-    }
-  };
-
-  // Filter history based on selected filter
   const filteredHistory = medicalHistory.filter(entry => {
     if (filter === 'recent') {
       const oneWeekAgo = new Date();
       oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-      
-      let entryDate;
-      if (entry.timestamp?.toDate) {
-        entryDate = entry.timestamp.toDate();
-      } else if (entry.timestamp instanceof Date) {
-        entryDate = entry.timestamp;
-      } else {
-        entryDate = new Date(entry.timestamp);
-      }
-      
-      return entryDate >= oneWeekAgo;
+      const d = entry.timestamp?.toDate ? entry.timestamp.toDate()
+        : entry.timestamp instanceof Date ? entry.timestamp
+        : new Date(entry.timestamp);
+      return d >= oneWeekAgo;
     }
     if (filter === 'urgent') {
-      return entry.aiResponse?.analysis?.urgency === 'emergency_care' || entry.aiResponse?.analysis?.urgency === 'see_doctor_soon';
+      const u = entry.aiResponse?.analysis?.urgency;
+      return u === 'emergency_care' || u === 'see_doctor_soon';
     }
     return true;
   });
 
   const formatDate = (timestamp) => {
-    let date;
-    if (timestamp?.toDate) {
-      // Firestore timestamp
-      date = timestamp.toDate();
-    } else if (timestamp instanceof Date) {
-      // Regular Date object
-      date = timestamp;
-    } else {
-      // String timestamp
-      date = new Date(timestamp);
-    }
+    const date = timestamp?.toDate ? timestamp.toDate()
+      : timestamp instanceof Date ? timestamp
+      : new Date(timestamp);
     return date.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
+      year: 'numeric', month: 'short', day: 'numeric',
+      hour: '2-digit', minute: '2-digit'
     });
   };
 
-  const getUrgencyColor = (urgency) => {
-    switch (urgency) {
-      case 'emergency_care':
-        return 'text-red-600 bg-red-50 border-red-200';
-      case 'see_doctor_soon':
-        return 'text-orange-600 bg-orange-50 border-orange-200';
-      case 'monitor_at_home':
-        return 'text-green-600 bg-green-50 border-green-200';
-      default:
-        return 'text-gray-600 bg-gray-50 border-gray-200';
-    }
-  };
+  const urgencyStyle = (urgency) => ({
+    emergency_care: 'bg-red-500/15 text-red-400 border border-red-500/20',
+    see_doctor_soon: 'bg-orange-500/15 text-orange-400 border border-orange-500/20',
+    monitor_at_home: 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/20',
+  }[urgency] || 'bg-slate-700 text-white/40');
 
-  const getUrgencyText = (urgency) => {
-    switch (urgency) {
-      case 'emergency_care':
-        return 'Emergency Care';
-      case 'see_doctor_soon':
-        return 'See Doctor Soon';
-      case 'monitor_at_home':
-        return 'Monitor at Home';
-      default:
-        return 'No Assessment';
-    }
-  };
-
-  // Export filtered history as PDF
-  const exportHistoryPDF = () => {
-    exportMedicalHistoryToPDF(filteredHistory, userProfile);
-  };
-
-  // Export as JSON (backup option)
-  const exportHistoryJSON = () => {
-    const dataStr = JSON.stringify(filteredHistory, null, 2);
-    const dataBlob = new Blob([dataStr], { type: 'application/json' });
-    const url = URL.createObjectURL(dataBlob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `avicenna-medical-history-${new Date().toISOString().split('T')[0]}.json`;
-    link.click();
-  };
-
-  // Export single conversation as PDF
-  const exportSingleConversation = (entry) => {
-    exportSingleConversationToPDF(entry, userProfile);
-  };
+  const urgencyLabel = (urgency) => ({
+    emergency_care: 'Emergency',
+    see_doctor_soon: 'See Doctor',
+    monitor_at_home: 'Monitor',
+  }[urgency] || '—');
 
   if (!user) return null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900/95 via-blue-900/95 to-indigo-900/95 relative overflow-hidden">
-      {/* Background Effects */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.3) 1px, transparent 0)`,
-            backgroundSize: '20px 20px'
-          }}></div>
-        </div>
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary-600/20 via-transparent to-accent-600/20"></div>
-        <div className="absolute top-20 left-10 w-32 h-32 bg-primary-400/20 rounded-full animate-float blur-xl"></div>
-        <div className="absolute bottom-20 right-10 w-24 h-24 bg-accent-400/20 rounded-full animate-float blur-xl" style={{ animationDelay: '2s' }}></div>
-      </div>
+    <div className="min-h-screen bg-slate-950">
 
-      {/* Header */}
-      <header className="relative z-10 p-6">
-        <div className="flex items-center justify-between max-w-6xl mx-auto">
-          <Link 
-            to="/profile" 
-            className="text-white/80 hover:text-white transition-all duration-300 hover:scale-110 p-2 rounded-full hover:bg-white/10"
-          >
-            <ArrowLeft className="w-6 h-6" />
+      {/* Top bar */}
+      <header className="fixed top-0 left-0 right-0 z-40 h-14 border-b border-white/10 bg-slate-950/95 backdrop-blur-sm">
+        <div className="h-full flex items-center justify-between px-5 max-w-3xl mx-auto">
+          <Link to="/" className="flex items-center gap-2">
+            <SunIcon className="w-6 h-6" color="#F59E0B" />
+            <span className="text-white font-semibold text-sm">{t('home.title')}</span>
           </Link>
-          <div className="flex items-center space-x-3">
-            <SunIcon className="w-8 h-8 drop-shadow-lg" color="#F59E0B" />
-            <span className="text-xl font-display font-bold text-white">
-              Medical History
-            </span>
-          </div>
-          <div className="w-10 h-10"></div> {/* Spacer */}
+          <Link to="/profile" className="text-white/35 hover:text-white/70 text-xs transition-colors">
+            ← {t('common.profile')}
+          </Link>
         </div>
       </header>
 
-      {/* Main Content */}
-      <div className="relative z-10 px-3 md:px-4 pb-6 md:pb-8">
-        <div className="max-w-6xl mx-auto">
-          {/* Header Section */}
-          <div className="enhanced-glass-card rounded-2xl md:rounded-3xl p-4 md:p-8 shadow-2xl border border-white/20 mb-6 md:mb-8">
-            <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-4 md:mb-6 space-y-4 md:space-y-0">
+      <div className="pt-14">
+        <div className="max-w-3xl mx-auto px-5 py-10">
+
+          {/* Page header */}
+          <div className="mb-8">
+            <span className="block text-amber-400 text-[10px] font-bold tracking-[0.2em] uppercase mb-4">
+              {t('medicalHistory.title')}
+            </span>
+            <div className="flex items-end justify-between gap-4 flex-wrap">
               <div>
-                <h1 className="text-2xl md:text-3xl font-display font-bold text-white mb-2">
+                <h1 className="text-2xl font-display font-bold text-white leading-tight">
                   Your Medical History
                 </h1>
-                <p className="text-white/70 text-base md:text-lg">
-                  {totalCount} saved conversations
-                  {hasMore && <span className="text-white/50"> (showing {filteredHistory.length})</span>}
+                <p className="text-white/35 text-xs mt-1">
+                  {totalCount} saved {totalCount === 1 ? 'conversation' : 'conversations'}
+                  {filteredHistory.length !== totalCount && ` · showing ${filteredHistory.length}`}
                 </p>
               </div>
-              
-              <div className="flex flex-wrap items-center gap-2 md:gap-4">
-                {/* Refresh Button */}
+
+              {/* Controls */}
+              <div className="flex items-center gap-2 flex-wrap">
                 <button
                   onClick={() => loadMedicalHistory(true)}
                   disabled={isLoading}
-                  className="mobile-btn flex items-center space-x-2 bg-white/10 backdrop-blur-sm text-white border border-white/20 px-3 py-2 md:px-4 md:py-2 rounded-full hover:bg-white/20 hover:border-white/30 hover:scale-105 active:scale-95 transition-all duration-300 font-medium disabled:opacity-50 min-h-[40px]"
+                  className="flex items-center gap-1.5 text-xs text-white/40 hover:text-white/70 border border-white/10 px-3 py-2 rounded-full transition-colors disabled:opacity-30"
                 >
-                  <RotateCcw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
-                  <span className="hidden md:inline">Refresh</span>
+                  <RotateCcw className={`w-3 h-3 ${isLoading ? 'animate-spin' : ''}`} />
+                  Refresh
                 </button>
-                
-                {/* Filter Dropdown */}
-                <div className="relative">
-                  <select
-                    value={filter}
-                    onChange={(e) => setFilter(e.target.value)}
-                    className="mobile-form-input bg-white/10 backdrop-blur-sm text-white border border-white/20 px-3 py-2 md:px-4 md:py-2 rounded-full focus:outline-none focus:ring-2 focus:ring-accent-400 min-h-[40px] text-sm md:text-base"
-                  >
-                    <option value="all" className="bg-gray-800 text-white">All Entries</option>
-                    <option value="recent" className="bg-gray-800 text-white">Last Week</option>
-                    <option value="urgent" className="bg-gray-800 text-white">Urgent Only</option>
-                  </select>
-                </div>
-                
-                {/* Export Buttons */}
+
+                <select
+                  value={filter}
+                  onChange={(e) => setFilter(e.target.value)}
+                  className="text-xs text-white/60 bg-slate-900 border border-white/10 rounded-full px-3 py-2 focus:outline-none focus:border-amber-400/30"
+                >
+                  <option value="all" className="bg-slate-900">All</option>
+                  <option value="recent" className="bg-slate-900">Last Week</option>
+                  <option value="urgent" className="bg-slate-900">Urgent</option>
+                </select>
+
                 {filteredHistory.length > 0 && (
-                  <div className="flex items-center space-x-2">
+                  <>
                     <button
-                      onClick={exportHistoryPDF}
-                      className="flex items-center space-x-2 bg-gradient-to-r from-red-500/80 to-red-600/80 backdrop-blur-sm text-white border border-red-400/30 px-4 md:px-6 py-2 rounded-full hover:from-red-500 hover:to-red-600 hover:scale-105 transition-all duration-300 font-medium"
+                      onClick={() => exportMedicalHistoryToPDF(filteredHistory, userProfile)}
+                      className="flex items-center gap-1.5 text-xs text-white/40 hover:text-white/70 border border-white/10 px-3 py-2 rounded-full transition-colors"
                       title="Export as PDF"
                     >
-                      <FileText className="w-4 h-4" />
-                      <span className="hidden md:inline">PDF</span>
+                      <FileText className="w-3 h-3" />
+                      PDF
                     </button>
                     <button
-                      onClick={exportHistoryJSON}
-                      className="flex items-center space-x-2 bg-white/10 backdrop-blur-sm text-white border border-white/20 px-4 md:px-6 py-2 rounded-full hover:bg-white/20 hover:border-white/30 hover:scale-105 transition-all duration-300 font-medium"
+                      onClick={() => {
+                        const blob = new Blob([JSON.stringify(filteredHistory, null, 2)], { type: 'application/json' });
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = `avicenna-history-${new Date().toISOString().split('T')[0]}.json`;
+                        a.click();
+                      }}
+                      className="flex items-center gap-1.5 text-xs text-white/40 hover:text-white/70 border border-white/10 px-3 py-2 rounded-full transition-colors"
                       title="Export as JSON"
                     >
-                      <Download className="w-4 h-4" />
-                      <span className="hidden md:inline">JSON</span>
+                      <Download className="w-3 h-3" />
+                      JSON
                     </button>
-                  </div>
+                  </>
                 )}
               </div>
             </div>
           </div>
 
-          {/* History List */}
+          {/* States */}
           {isLoading ? (
-            <div className="enhanced-glass-card rounded-3xl p-8 shadow-2xl border border-white/20 text-center">
-              <div className="animate-spin w-8 h-8 border-2 border-white/30 border-t-white rounded-full mx-auto mb-4"></div>
-              <p className="text-white/70">Loading your medical history...</p>
+            <div className="flex items-center justify-center py-20">
+              <div className="flex flex-col items-center gap-3">
+                <div className="w-6 h-6 border-2 border-white/10 border-t-white/50 rounded-full animate-spin" />
+                <p className="text-xs text-white/30">Loading…</p>
+              </div>
             </div>
           ) : filteredHistory.length === 0 ? (
-            <div className="enhanced-glass-card rounded-3xl p-8 shadow-2xl border border-white/20 text-center">
-              <MessageCircle className="w-16 h-16 text-white/40 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-white mb-2">
-                {filter === 'all' ? 'No Medical History Yet' : 'No Entries Found'}
-              </h3>
-              <p className="text-white/70 mb-6">
-                {filter === 'all' 
-                  ? 'Start using Avicenna chat to build your medical history automatically'
-                  : 'Try adjusting your filter or check back later'
-                }
+            <div className="flex flex-col items-center py-20 text-center">
+              <MessageSquare className="w-10 h-10 text-white/10 mb-4" />
+              <p className="text-white/50 text-sm mb-1">
+                {filter === 'all' ? 'No conversations yet' : 'No entries match this filter'}
               </p>
-              <Link 
-                to="/chat"
-                className="inline-flex items-center space-x-2 bg-gradient-to-r from-accent-500 to-accent-600 text-white px-6 py-3 rounded-full hover:scale-105 hover:shadow-lg transition-all duration-300 font-medium"
-              >
-                <MessageCircle className="w-4 h-4" />
-                <span>Start New Conversation</span>
-              </Link>
+              <p className="text-white/25 text-xs mb-6">
+                {filter === 'all'
+                  ? 'Your chat history will appear here automatically'
+                  : 'Try a different filter'}
+              </p>
+              {filter === 'all' && (
+                <Link
+                  to="/chat"
+                  className="text-xs px-5 py-2.5 bg-amber-400 hover:bg-amber-300 text-slate-900 font-bold rounded-full transition-colors"
+                >
+                  Start a Conversation
+                </Link>
+              )}
             </div>
           ) : (
-            <div className="space-y-6">
-              <div className="grid gap-6">
-                {filteredHistory.map((entry, index) => (
-                  <div 
-                    key={entry.id || index}
-                    className="enhanced-glass-card rounded-2xl p-6 shadow-xl border border-white/20 hover:bg-white/10 transition-all duration-300"
-                  >
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex-1">
-                        <div className="flex items-center space-x-3 mb-2">
-                          <Calendar className="w-4 h-4 text-white/60" />
-                          <span className="text-white/80 text-sm">
+            <div className="bg-slate-900 border border-white/[0.08] rounded-2xl divide-y divide-white/[0.06]">
+              {filteredHistory.map((entry, index) => (
+                <div key={entry.id || index}>
+                  {/* Entry row */}
+                  <div className="px-5 py-4">
+                    <div className="flex items-start justify-between gap-4">
+                      {/* Left */}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="text-xs text-white/30">
                             {formatDate(entry.timestamp)}
                           </span>
-                          <span className="text-white/40">•</span>
-                          <span className="text-white/60 text-sm capitalize">
-                            {entry.language || 'English'}
-                          </span>
+                          {entry.language && (
+                            <span className="text-[10px] text-white/20 uppercase">{entry.language}</span>
+                          )}
                         </div>
-                        
-                        <h3 className="text-lg font-semibold text-white mb-2">
-                          {t('medicalHistory.symptomAnalysis')}
-                        </h3>
-                        
-                        <p className="text-white/80 text-sm line-clamp-2">
+                        <p className="text-sm text-white/70 leading-relaxed line-clamp-2">
                           {entry.userMessage || entry.symptoms}
                         </p>
                       </div>
-                      
-                      <div className="flex flex-col items-end space-y-2">
+
+                      {/* Right */}
+                      <div className="flex flex-col items-end gap-2 flex-shrink-0">
                         {entry.aiResponse?.analysis?.urgency && (
-                          <span className={`px-3 py-1 rounded-full text-xs font-medium border ${getUrgencyColor(entry.aiResponse.analysis.urgency)}`}>
-                            {getUrgencyText(entry.aiResponse.analysis.urgency)}
+                          <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${urgencyStyle(entry.aiResponse.analysis.urgency)}`}>
+                            {urgencyLabel(entry.aiResponse.analysis.urgency)}
                           </span>
                         )}
-                        
-                        <div className="flex items-center space-x-1 md:space-x-2">
-                          <button 
-                            onClick={() => exportSingleConversation(entry)}
-                            className="text-white/60 hover:text-red-400 transition-colors p-1"
-                            title="Export this conversation as PDF"
+                        <div className="flex items-center gap-1">
+                          <button
+                            onClick={() => exportSingleConversationToPDF(entry, userProfile)}
+                            className="p-1.5 text-white/20 hover:text-white/60 transition-colors"
+                            title="Export as PDF"
                           >
-                            <FileText className="w-4 h-4" />
+                            <FileText className="w-3.5 h-3.5" />
                           </button>
-                          
-                          <button 
+                          <button
                             onClick={() => setSelectedEntry(selectedEntry === entry ? null : entry)}
-                            className="text-white/60 hover:text-white transition-colors p-1"
-                            title="Expand conversation details"
+                            className="p-1.5 text-white/20 hover:text-white/60 transition-colors"
+                            title="Expand details"
                           >
-                            <ChevronDown className={`w-4 h-4 transform transition-transform ${selectedEntry === entry ? 'rotate-180' : ''}`} />
+                            <ChevronDown className={`w-3.5 h-3.5 transition-transform ${selectedEntry === entry ? 'rotate-180' : ''}`} />
                           </button>
-                          
-                          <button 
+                          <button
                             onClick={() => handleDeleteEntry(entry.id)}
-                            className="text-red-400/60 hover:text-red-400 transition-colors p-1"
-                            title="Delete conversation"
+                            className="p-1.5 text-red-400/30 hover:text-red-400/70 transition-colors"
+                            title="Delete"
                           >
-                            <Trash2 className="w-4 h-4" />
+                            <Trash2 className="w-3.5 h-3.5" />
                           </button>
                         </div>
                       </div>
                     </div>
-                    
-                    {/* Expanded Content */}
+
+                    {/* Expanded detail */}
                     {selectedEntry === entry && entry.aiResponse?.analysis && (
-                      <div className="mt-6 pt-6 border-t border-white/20">
-                        <div className="space-y-4">
-                          {/* User Message */}
-                          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
-                            <h4 className="font-semibold text-white mb-2">Your Symptoms:</h4>
-                            <p className="text-white/80 text-sm">
-                              {entry.userMessage || entry.symptoms}
-                            </p>
-                          </div>
-                          
-                          {/* AI Analysis */}
-                          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20">
-                            <h4 className="font-semibold text-white mb-2">AI Analysis:</h4>
-                            
-                            {/* Conditions */}
-                            {entry.aiResponse.analysis.conditions && entry.aiResponse.analysis.conditions.length > 0 && (
-                              <div className="mb-4">
-                                <h5 className="font-medium text-white/90 mb-2">Possible Conditions:</h5>
-                                <div className="space-y-2">
-                                  {entry.aiResponse.analysis.conditions.map((condition, idx) => (
-                                    <div key={idx} className="bg-white/10 rounded-lg p-3">
-                                      <h6 className="font-medium text-white text-sm">{condition.name}</h6>
-                                      <p className="text-white/70 text-xs mt-1">{condition.explanation}</p>
-                                    </div>
-                                  ))}
-                                </div>
-                              </div>
-                            )}
-                            
-                            {/* Doctor Recommendation */}
-                            {entry.aiResponse.analysis.doctor_type && (
-                              <div className="mb-4">
-                                <h5 className="font-medium text-white/90 mb-2">Recommended Specialist:</h5>
-                                <div className="bg-blue-500/20 border border-blue-400/30 rounded-lg p-3">
-                                  <span className="text-blue-200 font-medium text-sm">
-                                    {entry.aiResponse.analysis.doctor_type}
-                                  </span>
-                                </div>
-                              </div>
-                            )}
-                            
-                            {/* Recommendations */}
-                            {entry.aiResponse.analysis.recommendations && entry.aiResponse.analysis.recommendations.length > 0 && (
-                              <div>
-                                <h5 className="font-medium text-white/90 mb-2">Recommendations:</h5>
-                                <ul className="space-y-1">
-                                  {entry.aiResponse.analysis.recommendations.map((rec, idx) => (
-                                    <li key={idx} className="text-white/70 text-sm flex items-start space-x-2">
-                                      <span className="w-1.5 h-1.5 bg-green-400 rounded-full mt-2 flex-shrink-0"></span>
-                                      <span>{rec}</span>
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-                            )}
-                          </div>
+                      <div className="mt-4 pt-4 border-t border-white/[0.06] space-y-4">
+
+                        {/* Symptoms */}
+                        <div>
+                          <p className="text-[10px] font-bold tracking-[0.12em] uppercase text-white/25 mb-2">Your Symptoms</p>
+                          <p className="text-sm text-white/55 leading-relaxed">
+                            {entry.userMessage || entry.symptoms}
+                          </p>
                         </div>
+
+                        {/* Conditions */}
+                        {entry.aiResponse.analysis.conditions?.length > 0 && (
+                          <div>
+                            <p className="text-[10px] font-bold tracking-[0.12em] uppercase text-white/25 mb-2">Possible Conditions</p>
+                            <div className="space-y-2">
+                              {entry.aiResponse.analysis.conditions.map((condition, idx) => (
+                                <div key={idx}>
+                                  <p className="text-sm font-medium text-white/70 mb-0.5">{condition.name}</p>
+                                  <p className="text-xs text-white/40 leading-relaxed">{condition.explanation}</p>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Doctor recommendation */}
+                        {entry.aiResponse.analysis.doctor_type && (
+                          <div>
+                            <p className="text-[10px] font-bold tracking-[0.12em] uppercase text-white/25 mb-2">Recommended Specialist</p>
+                            <p className="text-sm text-white/60">{entry.aiResponse.analysis.doctor_type}</p>
+                          </div>
+                        )}
+
+                        {/* Recommendations */}
+                        {entry.aiResponse.analysis.recommendations?.length > 0 && (
+                          <div>
+                            <p className="text-[10px] font-bold tracking-[0.12em] uppercase text-white/25 mb-2">Recommendations</p>
+                            <ul className="space-y-1.5">
+                              {entry.aiResponse.analysis.recommendations.map((rec, idx) => (
+                                <li key={idx} className="flex items-start gap-2 text-xs text-white/45">
+                                  <span className="mt-1.5 w-1 h-1 rounded-full bg-white/20 flex-shrink-0" />
+                                  {rec}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
 
-              {/* Load More Button */}
+              {/* Load more */}
               {hasMore && (
-                <div className="text-center">
+                <div className="px-5 py-4">
                   <button
-                    onClick={loadMore}
+                    onClick={() => !isLoadingMore && hasMore && loadMedicalHistory(false)}
                     disabled={isLoadingMore}
-                    className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur-sm text-white border border-white/20 px-6 py-3 rounded-full hover:bg-white/20 hover:border-white/30 hover:scale-105 transition-all duration-300 font-medium disabled:opacity-50"
+                    className="w-full flex items-center justify-center gap-2 text-xs text-white/35 hover:text-white/60 transition-colors py-1 disabled:opacity-30"
                   >
                     {isLoadingMore ? (
-                      <>
-                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                        <span>Loading...</span>
-                      </>
+                      <><div className="w-3 h-3 border-2 border-white/20 border-t-white/50 rounded-full animate-spin" /> Loading…</>
                     ) : (
-                      <>
-                        <ChevronDown className="w-4 h-4" />
-                        <span>Load More</span>
-                      </>
+                      <><ChevronDown className="w-3.5 h-3.5" /> Load more</>
                     )}
                   </button>
                 </div>
@@ -471,4 +359,4 @@ const MedicalHistory = () => {
   );
 };
 
-export default MedicalHistory; 
+export default MedicalHistory;

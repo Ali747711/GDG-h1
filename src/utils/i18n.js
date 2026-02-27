@@ -98,43 +98,105 @@ const resources = {
       // About page
       about: {
         title: 'About Avicenna',
-        subtitle: 'Your Healthcare AI Companion',
-        description: 'Avicenna is designed specifically for foreigners living in South Korea, providing medically-informed symptom analysis in English, Korean, and Uzbek.',
+        subtitle: 'AI Health Companion',
+        description: 'Avicenna helps foreigners in South Korea understand their symptoms — in English, Korean, or Uzbek — without the confusion of a language barrier.',
         mission: {
-          title: 'Our Mission',
-          description: 'Breaking down language barriers in healthcare by providing accessible, AI-powered symptom analysis for the international community in South Korea.'
+          label: 'Mission',
+          title: 'Healthcare without the language barrier',
+          description: 'Getting medical help in a foreign country is hard enough without a language problem on top of it. Avicenna exists so you can understand your symptoms clearly — in the language you actually think in — and know what to do next.'
         },
         values: {
           multilingual: {
-            title: 'Multilingual Care',
-            description: 'Healthcare guidance in English, Korean, and Uzbek to serve our diverse community.'
+            title: 'Three languages, one tool',
+            description: 'Describe what you feel in English, Korean, or Uzbek — whichever is most natural to you. No translation needed.'
           },
           aiPowered: {
-            title: 'AI-Powered Insights',
-            description: 'Advanced artificial intelligence trained on medical knowledge to provide accurate symptom analysis.'
+            title: 'Clinically informed AI',
+            description: 'Avicenna uses medical knowledge to assess your symptoms, estimate urgency, and tell you whether to rest, see a doctor, or go to the ER.'
           },
           accessible: {
-            title: 'Accessible Healthcare',
-            description: 'Bridging the gap between language barriers and quality healthcare information.'
+            title: 'Always available',
+            description: 'No appointment. No insurance card. No waiting room. Open your browser and get guidance within minutes.'
+          }
+        },
+        howItWorks: {
+          label: 'How It Works',
+          title: 'How Avicenna Works',
+          description: 'Describe what you\'re feeling — Avicenna maps your words to medical context and tells you what to do next.',
+          block1: {
+            title: 'Symptom Analysis',
+            description: 'Tell Avicenna what you\'re experiencing in plain language. It reads for severity, duration, and context — not just keywords.',
+            point1: 'Works in English, Korean, and Uzbek',
+            point2: 'Understands vague descriptions, not just medical terms',
+            point3: 'Picks up on warning signs automatically'
+          },
+          block2: {
+            title: 'What You Should Do',
+            description: 'Get a clear picture of what might be happening and what your next step should be — rest, see a doctor, or go to the ER.',
+            point1: 'Likely causes based on your specific symptoms',
+            point2: 'Urgency level: home care, doctor visit, or emergency',
+            point3: 'What type of specialist to see if needed'
+          }
+        },
+        builtWithCare: {
+          label: 'Team',
+          title: 'Built with care',
+          description: 'Avicenna started as a direct response to a real problem: foreigners struggling to get medical help in a language they understand. It\'s built to be useful — not impressive.',
+          ai: {
+            title: 'AI at the core',
+            description: 'Powered by Google Gemini — one of the most capable language models available — applied to medical reasoning.'
+          },
+          medical: {
+            title: 'Medically grounded',
+            description: 'Responses follow clinical reasoning patterns. Avicenna doesn\'t guess — it works from what you describe.'
+          },
+          community: {
+            title: 'Built for expats',
+            description: 'Every decision — from language choice to disclaimer wording — is made with foreigners in South Korea in mind.'
           }
         },
         disclaimer: {
           title: 'Important Medical Disclaimer',
-          subtitle: 'Avicenna is an AI-powered health information tool and is NOT a substitute for professional medical advice, diagnosis, or treatment.',
-          seekCare: 'Always seek professional medical care when:',
-          conditions: [
-            'You have severe, persistent, or worsening symptoms',
-            'You experience emergency symptoms (chest pain, difficulty breathing, severe bleeding, etc.)',
-            'You have chronic conditions requiring ongoing medical management',
-            'You need medication prescriptions or medical procedures'
-          ],
-          limitations: 'Our AI provides general health information based on symptom analysis. It cannot perform physical examinations, order medical tests, or provide definitive diagnoses. Individual medical circumstances vary significantly.',
-          guidance: 'For emergencies, call your local emergency number immediately. For non-urgent concerns, consult with qualified healthcare professionals in your area.'
+          substitute: 'Avicenna is a health information tool — not a replacement for professional medical care. It cannot examine you, order tests, or provide a diagnosis.',
+          seekProfessional: 'Always see a doctor if you experience',
+          severeSymptoms: 'Severe, persistent, or rapidly worsening symptoms',
+          emergencySymptoms: 'Emergency signs — chest pain, difficulty breathing, heavy bleeding',
+          chronicConditions: 'Symptoms linked to a known chronic condition',
+          medications: 'Anything that may require prescription medication or procedures',
+          limitations: 'AI limitations',
+          generalInfo: 'Avicenna provides general guidance based on what you describe. Every individual is different — your actual situation may vary significantly from what the AI suggests.',
+          emergencySituations: 'In an emergency',
+          emergencyContact: 'Call your local emergency number immediately. Do not wait for AI guidance.'
+        },
+        privacy: {
+          title: 'Your data, your control',
+          description: 'Avicenna is built with privacy at its core. You decide what gets stored — and you can use it fully without ever creating an account.',
+          dataProtection: {
+            title: 'How we protect your data',
+            noPersonal: 'No personal health data is stored without your permission',
+            encrypted: 'All conversations are encrypted in transit',
+            noAccount: 'Full functionality available without an account',
+            anonymous: 'Anonymous usage by default — no tracking'
+          },
+          yourControl: {
+            title: 'What you control',
+            clearHistory: 'Clear your conversation history any time',
+            preferredLanguage: 'Set your preferred language independently',
+            noAccount: 'Use the app without ever signing up',
+            transparent: 'We are transparent about how your data is used'
+          }
         },
         cta: {
           title: 'Ready to get started?',
           description: 'Experience personalized health guidance in your preferred language. Start your symptom analysis with Avicenna today.',
-          button: 'Start Symptom Analysis'
+          button: 'Start Symptom Analysis',
+          ready: 'Understand your symptoms today.',
+          personalized: 'Free symptom analysis in English, Korean, or Uzbek. ',
+          symptomAnalysis: 'No appointment needed.',
+          startSymptomAnalysis: 'Start for free',
+          free: 'Free',
+          noRegistration: 'No registration',
+          languages: '3 languages'
         },
         features: {
           multilingual: 'Multilingual Support',
@@ -284,43 +346,105 @@ const resources = {
       // About page
       about: {
         title: '아비세나 소개',
-        subtitle: '당신의 의료 AI 동반자',
-        description: '아비세나는 한국에 거주하는 외국인을 위해 특별히 설계되어 영어, 한국어, 우즈베크어로 의학적 정보에 기반한 증상 분석을 제공합니다.',
+        subtitle: 'AI 건강 동반자',
+        description: '아비세나는 한국에 거주하는 외국인이 언어 장벽 없이 증상을 이해할 수 있도록 돕습니다.',
         mission: {
-          title: '우리의 사명',
-          description: '한국 국제 커뮤니티를 위한 접근 가능한 AI 기반 증상 분석을 제공하여 의료 서비스의 언어 장벽을 허물어 나갑니다.'
+          label: '미션',
+          title: '언어 장벽 없는 의료 서비스',
+          description: '외국에서 의료 도움을 받는 것은 언어 문제까지 더해지면 더욱 어렵습니다. 아비세나는 여러분이 실제로 생각하는 언어로 증상을 명확히 이해하고 다음 단계를 알 수 있도록 만들어졌습니다.'
         },
         values: {
           multilingual: {
-            title: '다국어 의료 서비스',
-            description: '다양한 커뮤니티를 위한 영어, 한국어, 우즈베크어 의료 안내.'
+            title: '세 가지 언어, 하나의 도구',
+            description: '영어, 한국어, 우즈베크어 중 가장 자연스러운 언어로 증상을 설명하세요.'
           },
           aiPowered: {
-            title: 'AI 기반 인사이트',
-            description: '정확한 증상 분석을 제공하는 의학 지식으로 훈련된 고급 인공지능.'
+            title: '임상 기반 AI',
+            description: '아비세나는 의학 지식을 활용해 증상을 평가하고, 긴급도를 판단하며, 다음 단계를 안내합니다.'
           },
           accessible: {
-            title: '접근 가능한 의료 서비스',
-            description: '언어 장벽과 양질의 의료 정보 사이의 격차를 줄입니다.'
+            title: '언제나 이용 가능',
+            description: '예약도, 보험 카드도 필요 없습니다. 브라우저를 열면 몇 분 안에 안내를 받을 수 있습니다.'
+          }
+        },
+        howItWorks: {
+          label: '작동 방법',
+          title: '아비세나 작동 방법',
+          description: '느끼는 것을 설명하면 — 아비세나가 여러분의 말을 의학적 맥락으로 변환하고 다음 단계를 알려드립니다.',
+          block1: {
+            title: '증상 분석',
+            description: '일상적인 언어로 경험하는 것을 말씀해주세요. 키워드만이 아닌 심각도, 기간, 상황을 파악합니다.',
+            point1: '영어, 한국어, 우즈베크어로 작동',
+            point2: '의학 용어뿐 아니라 모호한 설명도 이해',
+            point3: '경고 신호를 자동으로 감지'
+          },
+          block2: {
+            title: '다음 단계',
+            description: '무슨 일이 일어나고 있는지, 다음 단계가 무엇인지 — 휴식, 의사 방문, 또는 응급실 방문 — 명확하게 알려드립니다.',
+            point1: '구체적인 증상에 기반한 가능성 있는 원인',
+            point2: '긴급도: 자택 요양, 의사 방문, 또는 응급',
+            point3: '필요한 경우 어떤 전문의를 찾아야 하는지'
+          }
+        },
+        builtWithCare: {
+          label: '팀',
+          title: '정성으로 만든 서비스',
+          description: '아비세나는 실제 문제에 대한 직접적인 응답으로 시작되었습니다: 자신이 이해하는 언어로 의료 도움을 받는 데 어려움을 겪는 외국인들. 인상적이기 위해서가 아닌 실용적이기 위해 만들어졌습니다.',
+          ai: {
+            title: 'AI의 핵심',
+            description: 'Google Gemini — 가장 뛰어난 언어 모델 중 하나 — 를 의학적 추론에 적용했습니다.'
+          },
+          medical: {
+            title: '의학적 근거',
+            description: '응답은 임상 추론 패턴을 따릅니다. 아비세나는 추측하지 않습니다 — 여러분이 설명한 내용을 바탕으로 합니다.'
+          },
+          community: {
+            title: '외국인을 위해 설계',
+            description: '언어 선택부터 면책 조항 문구까지 — 모든 결정은 한국에 거주하는 외국인을 염두에 두고 이루어집니다.'
           }
         },
         disclaimer: {
           title: '중요한 의료 면책 조항',
-          subtitle: '아비세나는 AI 기반 건강 정보 도구로서 전문 의료 조언, 진단 또는 치료를 대체하지 않습니다.',
-          seekCare: '다음의 경우 반드시 전문 의료진의 진료를 받으세요:',
-          conditions: [
-            '심각하고 지속적이거나 악화되는 증상이 있을 때',
-            '응급 증상(가슴 통증, 호흡 곤란, 심한 출혈 등)을 경험할 때',
-            '지속적인 의료 관리가 필요한 만성 질환이 있을 때',
-            '처방약이나 의료 시술이 필요할 때'
-          ],
-          limitations: '저희 AI는 증상 분석을 기반으로 한 일반적인 건강 정보를 제공합니다. 신체 검사, 의료 검사 주문, 확정적 진단은 할 수 없습니다. 개인의 의료 상황은 크게 다를 수 있습니다.',
-          guidance: '응급상황 시 즉시 응급번호로 전화하세요. 응급하지 않은 경우 해당 지역의 자격을 갖춘 의료진과 상담하세요.'
+          substitute: '아비세나는 건강 정보 도구로, 전문 의료 서비스를 대체할 수 없습니다. 신체 검사, 검사 주문, 진단을 제공하지 않습니다.',
+          seekProfessional: '다음의 경우 반드시 의사를 만나세요',
+          severeSymptoms: '심각하거나 지속적으로 악화되는 증상',
+          emergencySymptoms: '응급 징후 — 가슴 통증, 호흡 곤란, 심한 출혈',
+          chronicConditions: '기존 만성 질환과 관련된 증상',
+          medications: '처방약이나 의료 시술이 필요한 상황',
+          limitations: 'AI의 한계',
+          generalInfo: '아비세나는 여러분이 설명한 내용을 바탕으로 일반적인 안내를 제공합니다. 개인의 실제 상황은 AI의 제안과 크게 다를 수 있습니다.',
+          emergencySituations: '응급상황 시',
+          emergencyContact: '즉시 응급번호로 전화하세요. AI 안내를 기다리지 마세요.'
+        },
+        privacy: {
+          title: '내 데이터, 내가 통제',
+          description: '아비세나는 개인정보 보호를 핵심으로 설계되었습니다. 계정 없이도 모든 기능을 사용할 수 있습니다.',
+          dataProtection: {
+            title: '데이터 보호 방법',
+            noPersonal: '허락 없이 개인 건강 정보를 저장하지 않습니다',
+            encrypted: '모든 대화는 전송 중 암호화됩니다',
+            noAccount: '계정 없이 모든 기능 이용 가능',
+            anonymous: '기본적으로 익명 사용 — 추적 없음'
+          },
+          yourControl: {
+            title: '내가 통제하는 것',
+            clearHistory: '언제든지 대화 기록 삭제 가능',
+            preferredLanguage: '선호 언어 독립적으로 설정',
+            noAccount: '가입 없이 앱 사용 가능',
+            transparent: '데이터 사용에 대해 투명하게 공개'
+          }
         },
         cta: {
           title: '시작할 준비가 되셨나요?',
-          description: '선호하는 언어로 개인 맞춤형 건강 안내를 경험해보세요. 오늘 아비세나와 함께 증상 분석을 시작하세요.',
-          button: '증상 분석 시작하기'
+          description: '선호하는 언어로 개인 맞춤형 건강 안내를 경험해보세요.',
+          button: '증상 분석 시작하기',
+          ready: '오늘 증상을 이해하세요.',
+          personalized: '영어, 한국어, 우즈베크어로 무료 증상 분석. ',
+          symptomAnalysis: '예약 필요 없음.',
+          startSymptomAnalysis: '무료로 시작하기',
+          free: '무료',
+          noRegistration: '회원가입 불필요',
+          languages: '3개 언어'
         },
         features: {
           multilingual: '다국어 지원',
@@ -470,43 +594,105 @@ const resources = {
       // About page
       about: {
         title: 'Avicenna haqida',
-        subtitle: 'Sizning tibbiy AI yordamchingiz',
-        description: 'Avicenna Janubiy Koreyada yashovchi chet elliklar uchun maxsus ishlab chiqilgan bo\'lib, ingliz, koreys va o\'zbek tillarida tibbiy ma\'lumotlarga asoslangan simptom tahlilini taqdim etadi.',
+        subtitle: 'AI Salomatlik Yordamchisi',
+        description: 'Avicenna Janubiy Koreyada yashovchi chet elliklarning til to\'sig\'isiz simptomlarini tushunishlariga yordam beradi.',
         mission: {
-          title: 'Bizning vazifamiz',
-          description: 'Janubiy Koreyada xalqaro jamiyat uchun qulay AI asosidagi simptom tahlilini taqdim etish orqali sog\'liqni saqlashda til to\'siqlarini yo\'q qilish.'
+          label: 'Missiya',
+          title: 'Til to\'sig\'isiz tibbiy yordam',
+          description: 'Chet mamlakatda tibbiy yordam olish til muammosi bilan birga yanada qiyinlashadi. Avicenna siz haqiqatan ham o\'ylaydigan tilda simptomlaringizni aniq tushunishingiz va keyingi qadamni bilishingiz uchun yaratilgan.'
         },
         values: {
           multilingual: {
-            title: 'Ko\'p tilli tibbiy xizmat',
-            description: 'Turli jamiyatlarimizga xizmat ko\'rsatish uchun ingliz, koreys va o\'zbek tillarida tibbiy yo\'riqnoma.'
+            title: 'Uch til, bitta vosita',
+            description: 'Ingliz, koreys yoki o\'zbek tilida — qaysi biri tabiiyroq bo\'lsa, o\'sha tilda simptomlaringizni tasvirlang.'
           },
           aiPowered: {
-            title: 'AI asosidagi ma\'lumotlar',
-            description: 'Aniq simptom tahlilini taqdim etish uchun tibbiy bilim bilan o\'rgatilgan ilg\'or sun\'iy aql.'
+            title: 'Klinik asosli AI',
+            description: 'Avicenna tibbiy bilimdan foydalanib simptomlaringizni baholaydi, shoshilinchlik darajasini aniqlaydi va keyingi qadamni ko\'rsatadi.'
           },
           accessible: {
-            title: 'Mavjud tibbiy xizmat',
-            description: 'Til to\'siqlari va sifatli tibbiy ma\'lumotlar o\'rtasidagi farqni kamaytirish.'
+            title: 'Har doim mavjud',
+            description: 'Uchrashuv ham, sug\'urta kartasi ham kerak emas. Brauzeringizni oching va bir necha daqiqada yo\'riqnoma oling.'
+          }
+        },
+        howItWorks: {
+          label: 'Qanday ishlaydi',
+          title: 'Avicenna qanday ishlaydi',
+          description: 'His qilayotganingizni tasvirlab bering — Avicenna so\'zlaringizni tibbiy kontekstga aylantiradi va keyingi qadamni ko\'rsatadi.',
+          block1: {
+            title: 'Simptom tahlili',
+            description: 'Boshdan kechirganingizni oddiy tilda Avicennaga aytib bering. U faqat kalit so\'zlar emas, og\'irlik darajasi, davomiyligi va kontekstni o\'qiydi.',
+            point1: 'Ingliz, koreys va o\'zbek tillarida ishlaydi',
+            point2: 'Noaniq tavsiflarni ham, tibbiy atamalarni ham tushunadi',
+            point3: 'Ogohlantirish belgilarini avtomatik aniqlaydi'
+          },
+          block2: {
+            title: 'Keyingi qadam',
+            description: 'Nima bo\'lishi mumkinligi va keyingi qadamingiz nima ekanligi — dam olish, shifokorga borish yoki tez yordam — haqida aniq tasavvur oling.',
+            point1: 'Aniq simptomlaringizga asoslangan ehtimoliy sabablar',
+            point2: 'Shoshilinchlik darajasi: uyda, shifokorga yoki shoshilinch',
+            point3: 'Kerak bo\'lsa qaysi mutaxassisga murojaat qilish'
+          }
+        },
+        builtWithCare: {
+          label: 'Jamoa',
+          title: 'G\'amxo\'rlik bilan yaratilgan',
+          description: 'Avicenna haqiqiy muammoga bevosita javob sifatida boshlandi: chet elliklarning o\'zlari tushunadigan tilda tibbiy yordam olishdagi qiyinchiliklar. Bu foydali bo\'lish uchun yaratilgan — ta\'sirchanlik uchun emas.',
+          ai: {
+            title: 'AI asosida',
+            description: 'Google Gemini — mavjud eng qobiliyatli til modellaridan biri — tibbiy mulohazalarga tatbiq etilgan.'
+          },
+          medical: {
+            title: 'Tibbiy asosda',
+            description: 'Javoblar klinik mulohaza naqshlarini kuzatadi. Avicenna taxmin qilmaydi — siz tasvirlaganlar asosida ishlaydi.'
+          },
+          community: {
+            title: 'Chet elliklar uchun',
+            description: 'Til tanlashdan ogohlantirish matniga qadar — har bir qaror Janubiy Koreyada yashovchi chet elliklarni nazarda tutib qabul qilinadi.'
           }
         },
         disclaimer: {
           title: 'Muhim tibbiy ogohlantirish',
-          subtitle: 'Avicenna AI asosidagi salomatlik ma\'lumotlari vositasi bo\'lib, professional tibbiy maslahat, tashxis yoki davolanishni almashtirmaydi.',
-          seekCare: 'Quyidagi hollarda albatta professional tibbiy yordam so\'rang:',
-          conditions: [
-            'Og\'ir, davomiy yoki yomonlashayotgan simptomlaringiz bo\'lsa',
-            'Shoshilinch simptomlarni boshdan kechirsangiz (ko\'krak og\'rig\'i, nafas olishda qiyinchilik, kuchli qon ketishi va hokazo)',
-            'Doimiy tibbiy nazorat talab qiladigan surunkali kasalliklaringiz bo\'lsa',
-            'Dori retseptlari yoki tibbiy muolajalar kerak bo\'lsa'
-          ],
-          limitations: 'Bizning AI simptom tahlili asosida umumiy salomatlik ma\'lumotlarini taqdim etadi. U jismoniy tekshirish, tibbiy testlar buyurtma qilish yoki aniq tashxis qo\'ya olmaydi. Shaxsiy tibbiy vaziyatlar sezilarli darajada farq qiladi.',
-          guidance: 'Favqulodda vaziyatlarda darhol favqulodda raqamga qo\'ng\'iroq qiling. Shoshilinch bo\'lmagan holatlar uchun hududingizdagi malakali tibbiy mutaxassislar bilan maslahatlashing.'
+          substitute: 'Avicenna salomatlik ma\'lumotlari vositasi bo\'lib, professional tibbiy xizmatni almashtira olmaydi. Jismoniy tekshirish, tahlil buyurtma qilish yoki tashxis qo\'ya olmaydi.',
+          seekProfessional: 'Quyidagi hollarda albatta shifokorga boring',
+          severeSymptoms: 'Og\'ir, davomiy yoki tez yomonlashayotgan simptomlar',
+          emergencySymptoms: 'Shoshilinch belgilar — ko\'krak og\'rig\'i, nafas olishda qiyinchilik, kuchli qon ketishi',
+          chronicConditions: 'Ma\'lum surunkali kasallik bilan bog\'liq simptomlar',
+          medications: 'Retsept dori yoki tibbiy muolajalar talab qiluvchi holatlar',
+          limitations: 'AI chegaralari',
+          generalInfo: 'Avicenna siz tasvirlaganlar asosida umumiy yo\'riqnoma beradi. Shaxsiy vaziyatingiz AI taklif qilganidan sezilarli darajada farq qilishi mumkin.',
+          emergencySituations: 'Favqulodda vaziyatda',
+          emergencyContact: 'Darhol favqulodda raqamga qo\'ng\'iroq qiling. AI yo\'riqnomasini kutmang.'
+        },
+        privacy: {
+          title: 'Sizning ma\'lumotlaringiz, sizning nazoratdingiz',
+          description: 'Avicenna maxfiylik asosida qurilgan. Hisob yaratmasdan ham barcha imkoniyatlardan foydalanishingiz mumkin.',
+          dataProtection: {
+            title: 'Ma\'lumotlarni qanday himoya qilamiz',
+            noPersonal: 'Ruxsatisiz shaxsiy salomatlik ma\'lumotlari saqlanmaydi',
+            encrypted: 'Barcha suhbatlar uzatish vaqtida shifrlanadi',
+            noAccount: 'Hisob yaratmasdan to\'liq funksionallik mavjud',
+            anonymous: 'Standart anonimlik — kuzatish yo\'q'
+          },
+          yourControl: {
+            title: 'Siz nazorat qiladigan narsa',
+            clearHistory: 'Suhbat tarixini istalgan vaqtda o\'chirish',
+            preferredLanguage: 'Afzal tilni mustaqil sozlash',
+            noAccount: 'Ro\'yxatdan o\'tmasdan ilovadan foydalanish',
+            transparent: 'Ma\'lumotlaringiz qanday ishlatilishi haqida shaffof'
+          }
         },
         cta: {
           title: 'Boshlashga tayyormisiz?',
-          description: 'O\'zingiz afzal ko\'rgan tilda shaxsiy salomatlik yo\'riqnomasini boshdan kechiring. Bugun Avicenna bilan simptom tahlilini boshlang.',
-          button: 'Simptom tahlilini boshlash'
+          description: 'O\'zingiz afzal ko\'rgan tilda shaxsiy salomatlik yo\'riqnomasini boshdan kechiring.',
+          button: 'Simptom tahlilini boshlash',
+          ready: 'Simptomlaringizni bugun tushuning.',
+          personalized: 'Ingliz, koreys yoki o\'zbek tilida bepul simptom tahlili. ',
+          symptomAnalysis: 'Uchrashuv kerak emas.',
+          startSymptomAnalysis: 'Bepul boshlash',
+          free: 'Bepul',
+          noRegistration: 'Ro\'yxatdan o\'tish shart emas',
+          languages: '3 til'
         },
         features: {
           multilingual: 'Ko\'p tilli qo\'llab-quvvatlash',

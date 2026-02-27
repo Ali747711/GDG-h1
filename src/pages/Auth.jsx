@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Eye, EyeOff, Mail, Lock, User, AlertCircle, CheckCircle, ArrowLeft } from 'lucide-react';
+import { Eye, EyeOff, AlertCircle } from 'lucide-react';
 import { useAuth } from '../contexts/FirebaseAuthContext';
 import SunIcon from '../components/SunIcon';
 
@@ -9,8 +9,8 @@ const Auth = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { signIn, signUp, isLoading, error, clearError, isAuthenticated } = useAuth();
-  
-  const [mode, setMode] = useState('signin'); // 'signin' or 'signup'
+
+  const [mode, setMode] = useState('signin');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -22,88 +22,48 @@ const Auth = () => {
   const [formErrors, setFormErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Redirect if already authenticated
   useEffect(() => {
-    if (isAuthenticated) {
-      navigate('/chat');
-    }
+    if (isAuthenticated) navigate('/chat');
   }, [isAuthenticated, navigate]);
 
-  // Clear errors when switching modes
   useEffect(() => {
     clearError();
     setFormErrors({});
   }, [mode, clearError]);
 
-  // Handle input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
-    
-    // Clear specific field error
-    if (formErrors[name]) {
-      setFormErrors(prev => ({ ...prev, [name]: '' }));
-    }
+    if (formErrors[name]) setFormErrors(prev => ({ ...prev, [name]: '' }));
   };
 
-  // Form validation
   const validateForm = () => {
     const errors = {};
-    
     if (mode === 'signup') {
-      if (!formData.name.trim()) {
-        errors.name = 'Name is required';
-      } else if (formData.name.trim().length < 2) {
-        errors.name = 'Name must be at least 2 characters';
-      }
+      if (!formData.name.trim()) errors.name = 'Name is required';
+      else if (formData.name.trim().length < 2) errors.name = 'Name must be at least 2 characters';
     }
-    
-    if (!formData.email.trim()) {
-      errors.email = 'Email is required';
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      errors.email = 'Please enter a valid email';
-    }
-    
-    if (!formData.password) {
-      errors.password = 'Password is required';
-    } else if (formData.password.length < 6) {
-      errors.password = 'Password must be at least 6 characters';
-    }
-    
+    if (!formData.email.trim()) errors.email = 'Email is required';
+    else if (!/\S+@\S+\.\S+/.test(formData.email)) errors.email = 'Please enter a valid email';
+    if (!formData.password) errors.password = 'Password is required';
+    else if (formData.password.length < 6) errors.password = 'Password must be at least 6 characters';
     if (mode === 'signup') {
-      if (!formData.confirmPassword) {
-        errors.confirmPassword = 'Please confirm your password';
-      } else if (formData.password !== formData.confirmPassword) {
-        errors.confirmPassword = 'Passwords do not match';
-      }
+      if (!formData.confirmPassword) errors.confirmPassword = 'Please confirm your password';
+      else if (formData.password !== formData.confirmPassword) errors.confirmPassword = 'Passwords do not match';
     }
-    
     return errors;
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
     const errors = validateForm();
-    if (Object.keys(errors).length > 0) {
-      setFormErrors(errors);
-      return;
-    }
-
+    if (Object.keys(errors).length > 0) { setFormErrors(errors); return; }
     setIsSubmitting(true);
-    
     try {
-      let result;
-      if (mode === 'signup') {
-        result = await signUp(formData.email, formData.password, formData.name);
-      } else {
-        result = await signIn(formData.email, formData.password);
-      }
-      
-      if (result.success) {
-        navigate('/chat');
-      }
+      const result = mode === 'signup'
+        ? await signUp(formData.email, formData.password, formData.name)
+        : await signIn(formData.email, formData.password);
+      if (result.success) navigate('/chat');
     } catch (err) {
       console.error('Auth error:', err);
     } finally {
@@ -111,288 +71,200 @@ const Auth = () => {
     }
   };
 
-  // Toggle password visibility
-  const togglePasswordVisibility = (field) => {
-    if (field === 'password') {
-      setShowPassword(!showPassword);
-    } else {
-      setShowConfirmPassword(!showConfirmPassword);
-    }
-  };
+  const inputClass = (hasError) =>
+    `w-full bg-slate-950 border rounded-xl px-4 py-3 text-sm text-white placeholder-white/25 focus:outline-none transition-colors ${
+      hasError ? 'border-red-500/60' : 'border-white/10 focus:border-amber-400/40'
+    }`;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900/95 via-blue-900/95 to-indigo-900/95 relative overflow-hidden">
-      {/* Background Effects */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.3) 1px, transparent 0)`,
-            backgroundSize: '20px 20px'
-          }}></div>
-        </div>
-        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary-600/20 via-transparent to-accent-600/20"></div>
-        <div className="absolute top-20 left-10 w-32 h-32 bg-primary-400/20 rounded-full animate-float blur-xl"></div>
-        <div className="absolute bottom-20 right-10 w-24 h-24 bg-accent-400/20 rounded-full animate-float blur-xl" style={{ animationDelay: '2s' }}></div>
-      </div>
+    <div className="min-h-screen bg-slate-950 flex flex-col">
 
-      {/* Header */}
-      <header className="relative z-10 p-6">
-        <div className="flex items-center justify-between max-w-md mx-auto">
-          <Link 
-            to="/" 
-            className="text-white/80 hover:text-white transition-all duration-300 hover:scale-110 p-2 rounded-full hover:bg-white/10"
-          >
-            <ArrowLeft className="w-6 h-6" />
+      {/* Top bar */}
+      <header className="h-14 border-b border-white/10 bg-slate-950/95 backdrop-blur-sm flex items-center px-5">
+        <div className="flex items-center justify-between w-full max-w-sm mx-auto">
+          <Link to="/" className="flex items-center gap-2">
+            <SunIcon className="w-6 h-6" color="#F59E0B" />
+            <span className="text-white font-semibold text-sm">{t('home.title')}</span>
           </Link>
-          <div className="flex items-center space-x-3">
-            <SunIcon className="w-8 h-8 drop-shadow-lg" color="#F59E0B" />
-            <span className="text-xl font-display font-bold text-white">
-              {t('home.title')}
-            </span>
-          </div>
-          <div className="w-10 h-10"></div> {/* Spacer */}
+          <Link to="/" className="text-white/35 hover:text-white/70 text-xs transition-colors">
+            ← {t('nav.home')}
+          </Link>
         </div>
       </header>
 
-      {/* Main Content */}
-      <div className="relative z-10 flex items-center justify-center px-3 md:px-4 pb-6 md:pb-8 min-h-[calc(100vh-120px)]">
-        <div className="w-full max-w-md">
-          <div className="enhanced-glass-card rounded-2xl md:rounded-3xl shadow-2xl border border-white/20 overflow-hidden mobile-modal">
-            {/* Mode Toggle */}
-            <div className="p-6 pb-0">
-              <div className="flex bg-white/10 backdrop-blur-sm rounded-2xl p-1 mb-8">
-                <button
-                  onClick={() => setMode('signin')}
-                  className={`flex-1 py-3 px-4 rounded-xl font-medium transition-all duration-300 ${
-                    mode === 'signin'
-                      ? 'bg-white/20 text-white shadow-lg'
-                      : 'text-white/70 hover:text-white hover:bg-white/10'
-                  }`}
-                >
-                  Sign In
-                </button>
-                <button
-                  onClick={() => setMode('signup')}
-                  className={`flex-1 py-3 px-4 rounded-xl font-medium transition-all duration-300 ${
-                    mode === 'signup'
-                      ? 'bg-white/20 text-white shadow-lg'
-                      : 'text-white/70 hover:text-white hover:bg-white/10'
-                  }`}
-                >
-                  Sign Up
-                </button>
-              </div>
-            </div>
+      {/* Form */}
+      <div className="flex-1 flex items-center justify-center px-5 py-12">
+        <div className="w-full max-w-sm">
 
-            {/* Form */}
-            <div className="p-6 pt-0">
-              <div className="text-center mb-8">
-                <h1 className="text-3xl font-display font-bold text-white mb-2">
-                  {mode === 'signin' ? t('auth.title') : t('auth.joinTitle')}
-                </h1>
-                <p className="text-white/80">
-                  {mode === 'signin' 
-                    ? t('auth.description') 
-                    : t('auth.joinDescription')
-                  }
-                </p>
-              </div>
-
-              {/* Error Display */}
-              {error && (
-                <div className="mb-6 p-4 bg-red-500/20 backdrop-blur-sm border border-red-500/30 rounded-xl flex items-center space-x-3">
-                  <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0" />
-                  <p className="text-red-200 text-sm">{error}</p>
-                </div>
-              )}
-
-              <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Name Field (Sign Up Only) */}
-                {mode === 'signup' && (
-                  <div>
-                    <label className="block text-sm font-medium text-white/90 mb-2">
-                      Full Name
-                    </label>
-                    <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <User className="h-5 w-5 text-white/50" />
-                      </div>
-                      <input
-                        type="text"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        className={`mobile-form-input w-full pl-10 pr-4 py-3 bg-white/10 backdrop-blur-sm border rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent transition-all duration-300 ${
-                          formErrors.name ? 'border-red-500' : 'border-white/20 hover:border-white/30'
-                        }`}
-                        placeholder="Enter your full name"
-                        autoComplete="name"
-                        autoCorrect="off"
-                      />
-                    </div>
-                    {formErrors.name && (
-                      <p className="mt-1 text-sm text-red-400">{formErrors.name}</p>
-                    )}
-                  </div>
-                )}
-
-                {/* Email Field */}
-                <div>
-                  <label className="block text-sm font-medium text-white/90 mb-2">
-                    Email Address
-                  </label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <Mail className="h-5 w-5 text-white/50" />
-                    </div>
-                    <input
-                      type="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      className={`mobile-form-input w-full pl-10 pr-4 py-3 bg-white/10 backdrop-blur-sm border rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent transition-all duration-300 ${
-                        formErrors.email ? 'border-red-500' : 'border-white/20 hover:border-white/30'
-                      }`}
-                      placeholder="Enter your email"
-                      autoComplete="email"
-                      autoCorrect="off"
-                      autoCapitalize="off"
-                    />
-                  </div>
-                  {formErrors.email && (
-                    <p className="mt-1 text-sm text-red-400">{formErrors.email}</p>
-                  )}
-                </div>
-
-                {/* Password Field */}
-                <div>
-                  <label className="block text-sm font-medium text-white/90 mb-2">
-                    Password
-                  </label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                      <Lock className="h-5 w-5 text-white/50" />
-                    </div>
-                                          <input
-                        type={showPassword ? 'text' : 'password'}
-                        name="password"
-                        value={formData.password}
-                        onChange={handleChange}
-                        className={`mobile-form-input w-full pl-10 pr-12 py-3 bg-white/10 backdrop-blur-sm border rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent transition-all duration-300 ${
-                          formErrors.password ? 'border-red-500' : 'border-white/20 hover:border-white/30'
-                        }`}
-                        placeholder="Enter your password"
-                        autoComplete={mode === 'signup' ? 'new-password' : 'current-password'}
-                      />
-                    <button
-                      type="button"
-                      onClick={() => togglePasswordVisibility('password')}
-                      className="absolute inset-y-0 right-0 pr-3 flex items-center text-white/50 hover:text-white/70 transition-colors"
-                    >
-                      {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
-                    </button>
-                  </div>
-                  {formErrors.password && (
-                    <p className="mt-1 text-sm text-red-400">{formErrors.password}</p>
-                  )}
-                </div>
-
-                {/* Confirm Password Field (Sign Up Only) */}
-                {mode === 'signup' && (
-                  <div>
-                    <label className="block text-sm font-medium text-white/90 mb-2">
-                      Confirm Password
-                    </label>
-                    <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <Lock className="h-5 w-5 text-white/50" />
-                      </div>
-                      <input
-                        type={showConfirmPassword ? 'text' : 'password'}
-                        name="confirmPassword"
-                        value={formData.confirmPassword}
-                        onChange={handleChange}
-                        className={`w-full pl-10 pr-12 py-3 bg-white/10 backdrop-blur-sm border rounded-xl text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-accent-400 focus:border-transparent transition-all duration-300 ${
-                          formErrors.confirmPassword ? 'border-red-500' : 'border-white/20 hover:border-white/30'
-                        }`}
-                        placeholder="Confirm your password"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => togglePasswordVisibility('confirmPassword')}
-                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-white/50 hover:text-white/70 transition-colors"
-                      >
-                        {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
-                      </button>
-                    </div>
-                    {formErrors.confirmPassword && (
-                      <p className="mt-1 text-sm text-red-400">{formErrors.confirmPassword}</p>
-                    )}
-                  </div>
-                )}
-
-                {/* Submit Button */}
-                <button
-                  type="submit"
-                  disabled={isLoading || isSubmitting}
-                  className="mobile-btn w-full py-4 px-6 bg-gradient-to-r from-accent-500 to-accent-600 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-[1.02] active:scale-95 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none flex items-center justify-center space-x-2 min-h-[52px]"
-                >
-                  {isLoading || isSubmitting ? (
-                    <>
-                      <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                      <span className="text-base">{mode === 'signin' ? 'Signing In...' : 'Creating Account...'}</span>
-                    </>
-                  ) : (
-                    <>
-                      <CheckCircle className="w-5 h-5" />
-                      <span className="text-base">{mode === 'signin' ? 'Sign In' : 'Create Account'}</span>
-                    </>
-                  )}
-                </button>
-              </form>
-
-              {/* Footer */}
-              <div className="mt-8 text-center">
-                <p className="text-white/60 text-sm">
-                  {mode === 'signin' ? (
-                    <>
-                      Don't have an account?{' '}
-                      <button
-                        onClick={() => setMode('signup')}
-                        className="text-accent-400 hover:text-accent-300 font-medium transition-colors"
-                      >
-                        Sign up
-                      </button>
-                    </>
-                  ) : (
-                    <>
-                      Already have an account?{' '}
-                      <button
-                        onClick={() => setMode('signin')}
-                        className="text-accent-400 hover:text-accent-300 font-medium transition-colors"
-                      >
-                        Sign in
-                      </button>
-                    </>
-                  )}
-                </p>
-              </div>
-            </div>
+          {/* Mode tabs */}
+          <div className="flex border-b border-white/10 mb-8">
+            {['signin', 'signup'].map((m) => (
+              <button
+                key={m}
+                onClick={() => setMode(m)}
+                className={`flex-1 pb-3 text-sm font-medium transition-colors border-b-2 -mb-px ${
+                  mode === m
+                    ? 'text-white border-amber-400'
+                    : 'text-white/30 border-transparent hover:text-white/55'
+                }`}
+              >
+                {m === 'signin' ? t('auth.signIn') : t('auth.signUp')}
+              </button>
+            ))}
           </div>
 
-          {/* Privacy Note */}
-          <div className="mt-6 text-center">
-            <p className="text-white/50 text-sm">
-              Your privacy is important to us. Learn how we protect your data in our{' '}
-              <Link to="/about" className="text-accent-400 hover:text-accent-300 transition-colors">
-                About page
-              </Link>
+          {/* Heading */}
+          <div className="mb-7">
+            <h1 className="text-2xl font-display font-bold text-white mb-1">
+              {mode === 'signin' ? t('auth.title') : t('auth.joinTitle')}
+            </h1>
+            <p className="text-white/40 text-sm">
+              {mode === 'signin' ? t('auth.description') : t('auth.joinDescription')}
             </p>
           </div>
+
+          {/* Auth error */}
+          {error && (
+            <div className="mb-5 flex items-start gap-2.5 bg-red-500/10 border border-red-500/20 rounded-xl px-4 py-3">
+              <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0 mt-0.5" />
+              <p className="text-red-300 text-sm">{error}</p>
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-4">
+
+            {/* Name (sign up only) */}
+            {mode === 'signup' && (
+              <div>
+                <label className="block text-xs font-medium text-white/50 mb-1.5">Full Name</label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  className={inputClass(formErrors.name)}
+                  placeholder="Your name"
+                  autoComplete="name"
+                  autoCorrect="off"
+                />
+                {formErrors.name && <p className="mt-1 text-xs text-red-400">{formErrors.name}</p>}
+              </div>
+            )}
+
+            {/* Email */}
+            <div>
+              <label className="block text-xs font-medium text-white/50 mb-1.5">Email</label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className={inputClass(formErrors.email)}
+                placeholder="you@example.com"
+                autoComplete="email"
+                autoCorrect="off"
+                autoCapitalize="off"
+              />
+              {formErrors.email && <p className="mt-1 text-xs text-red-400">{formErrors.email}</p>}
+            </div>
+
+            {/* Password */}
+            <div>
+              <label className="block text-xs font-medium text-white/50 mb-1.5">Password</label>
+              <div className="relative">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className={`${inputClass(formErrors.password)} pr-10`}
+                  placeholder="Min. 6 characters"
+                  autoComplete={mode === 'signup' ? 'new-password' : 'current-password'}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute inset-y-0 right-3 flex items-center text-white/30 hover:text-white/60 transition-colors"
+                >
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
+              {formErrors.password && <p className="mt-1 text-xs text-red-400">{formErrors.password}</p>}
+            </div>
+
+            {/* Confirm password (sign up only) */}
+            {mode === 'signup' && (
+              <div>
+                <label className="block text-xs font-medium text-white/50 mb-1.5">Confirm Password</label>
+                <div className="relative">
+                  <input
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    name="confirmPassword"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    className={`${inputClass(formErrors.confirmPassword)} pr-10`}
+                    placeholder="Repeat your password"
+                    autoComplete="new-password"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute inset-y-0 right-3 flex items-center text-white/30 hover:text-white/60 transition-colors"
+                  >
+                    {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
+                {formErrors.confirmPassword && <p className="mt-1 text-xs text-red-400">{formErrors.confirmPassword}</p>}
+              </div>
+            )}
+
+            {/* Submit */}
+            <button
+              type="submit"
+              disabled={isLoading || isSubmitting}
+              className="w-full mt-2 py-3 px-6 bg-amber-400 hover:bg-amber-300 text-slate-900 font-bold text-sm rounded-full transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+            >
+              {isLoading || isSubmitting ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-slate-900/30 border-t-slate-900 rounded-full animate-spin" />
+                  {mode === 'signin' ? 'Signing in…' : 'Creating account…'}
+                </>
+              ) : (
+                mode === 'signin' ? t('auth.signIn') : 'Create Account'
+              )}
+            </button>
+          </form>
+
+          {/* Switch mode */}
+          <p className="mt-6 text-center text-xs text-white/30">
+            {mode === 'signin' ? (
+              <>
+                {t('auth.noAccount')}{' '}
+                <button onClick={() => setMode('signup')} className="text-white/60 hover:text-white underline underline-offset-2 transition-colors">
+                  {t('auth.signUp')}
+                </button>
+              </>
+            ) : (
+              <>
+                {t('auth.haveAccount')}{' '}
+                <button onClick={() => setMode('signin')} className="text-white/60 hover:text-white underline underline-offset-2 transition-colors">
+                  {t('auth.signIn')}
+                </button>
+              </>
+            )}
+          </p>
+
+          {/* Privacy note */}
+          <p className="mt-8 text-center text-xs text-white/20">
+            Your data is protected.{' '}
+            <Link to="/about" className="text-white/35 hover:text-white/60 underline underline-offset-2 transition-colors">
+              Learn how
+            </Link>
+          </p>
         </div>
       </div>
     </div>
   );
 };
 
-export default Auth; 
+export default Auth;

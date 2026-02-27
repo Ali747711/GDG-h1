@@ -1,7 +1,10 @@
 {
+  "rewrites": [
+    { "source": "/((?!api/).*)", "destination": "/index.html" }
+  ],
   "functions": {
     "api/analyze-symptoms.js": {
       "maxDuration": 30
     }
   }
-} 
+}

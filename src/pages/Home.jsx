@@ -231,317 +231,152 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Why Choose Avicenna Section - Ultra Modern */}
-      <section className="relative py-24 md:py-40 overflow-hidden">
-        {/* Dynamic Background */}
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-primary-900 to-slate-800"></div>
-          <div className="absolute inset-0 bg-gradient-to-tr from-primary-600/20 via-transparent to-accent-500/20"></div>
-          <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_30%_20%,rgba(245,158,11,0.1),transparent_50%)]"></div>
-          <div className="absolute bottom-0 right-0 w-full h-full bg-[radial-gradient(circle_at_70%_80%,rgba(13,148,136,0.1),transparent_50%)]"></div>
-        </div>
-        
-        {/* Floating Elements */}
-        <div className="absolute top-20 left-10 w-32 h-32 bg-accent-400/10 rounded-full blur-xl animate-float"></div>
-        <div className="absolute bottom-20 right-10 w-40 h-40 bg-primary-400/10 rounded-full blur-xl animate-float" style={{animationDelay: '2s'}}></div>
-        
-        {/* Content */}
-        <div className="relative z-10 container mx-auto px-4">
-          {/* Hero Header */}
-          <div className="text-center mb-20 md:mb-24">
-            <div className="inline-flex items-center px-6 py-3 bg-white/5 backdrop-blur-md rounded-full text-white/90 text-sm font-medium mb-8 border border-white/10">
-              <div className="w-2 h-2 bg-gradient-to-r from-accent-400 to-accent-600 rounded-full mr-3 animate-pulse"></div>
-              Why Choose Avicenna
-            </div>
-            <h2 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-white mb-8 leading-[0.9] tracking-tight">
-              <span className="bg-gradient-to-r from-white via-white to-white/80 bg-clip-text text-transparent">
-                {t('home.whyChoose.title')}
+      {/* Why Choose Avicenna */}
+      <section className="py-24 md:py-32 bg-slate-950">
+        <div className="container mx-auto px-6 max-w-6xl">
+          {/* Split header */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 pb-14 border-b border-white/10 mb-14">
+            <div>
+              <span className="block text-amber-400 text-xs font-bold tracking-[0.2em] uppercase mb-5">
+                Why Avicenna
               </span>
-            </h2>
-            <p className="text-xl md:text-2xl text-white/70 max-w-4xl mx-auto leading-relaxed font-light">
+              <h2 className="text-3xl md:text-5xl font-display font-bold text-white leading-tight max-w-lg">
+                {t('home.whyChoose.title')}
+              </h2>
+            </div>
+            <p className="text-white/45 text-base leading-relaxed max-w-sm md:text-right">
               {t('home.whyChoose.subtitle')}
             </p>
           </div>
 
-          {/* Premium Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 max-w-7xl mx-auto">
-            {/* Card 1 - Multilingual */}
-            <div className="group relative">
-              <div className="relative">
-                {/* Glow Effect */}
-                <div className="absolute -inset-1 bg-gradient-to-r from-accent-500 via-accent-400 to-accent-600 rounded-3xl blur opacity-0 group-hover:opacity-30 transition-opacity duration-500"></div>
-                
-                {/* Main Card */}
-                <div className="relative bg-white/10 backdrop-blur-xl rounded-3xl p-8 lg:p-10 border border-white/20 hover:border-white/30 transition-all duration-700 group-hover:scale-105 group-hover:-translate-y-3">
-                  <div className="text-center">
-                    {/* Icon Container */}
-                    <div className="relative mb-8">
-                      <div className="w-24 h-24 bg-gradient-to-br from-accent-400 via-accent-500 to-accent-600 rounded-3xl flex items-center justify-center mx-auto group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-2xl">
-                        <Globe className="w-12 h-12 text-white drop-shadow-lg" />
-                      </div>
-                      <div className="absolute -top-2 -right-2 w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                        <span className="text-xs font-bold text-white">3+</span>
-                      </div>
-                    </div>
-                    
-                    {/* Content */}
-                    <div className="space-y-4">
-                      <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-accent-300 transition-colors duration-300">
-                        {t('home.features.multilingual.title')}
-                      </h3>
-                      <p className="text-white/70 leading-relaxed text-base group-hover:text-white/90 transition-colors duration-300">
-                        {t('home.features.multilingual.description')}
-                      </p>
-                    </div>
-                  </div>
-                </div>
+          {/* Three features separated by dividers */}
+          <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-white/10">
+            <div className="group py-10 md:py-0 md:pr-14">
+              <div className="w-10 h-10 rounded-xl bg-amber-400/10 flex items-center justify-center mb-7 group-hover:bg-amber-400/15 transition-colors duration-300">
+                <Globe className="w-5 h-5 text-amber-400" />
               </div>
+              <h3 className="text-white font-semibold text-lg mb-3">
+                {t('home.features.multilingual.title')}
+              </h3>
+              <p className="text-white/45 text-sm leading-relaxed">
+                {t('home.features.multilingual.description')}
+              </p>
             </div>
 
-            {/* Card 2 - AI Analysis */}
-            <div className="group relative">
-              <div className="relative">
-                {/* Glow Effect */}
-                <div className="absolute -inset-1 bg-gradient-to-r from-primary-500 via-primary-400 to-primary-600 rounded-3xl blur opacity-0 group-hover:opacity-30 transition-opacity duration-500"></div>
-                
-                {/* Main Card */}
-                <div className="relative bg-white/10 backdrop-blur-xl rounded-3xl p-8 lg:p-10 border border-white/20 hover:border-white/30 transition-all duration-700 group-hover:scale-105 group-hover:-translate-y-3">
-                  <div className="text-center">
-                    {/* Icon Container */}
-                    <div className="relative mb-8">
-                      <div className="w-24 h-24 bg-gradient-to-br from-primary-400 via-primary-500 to-primary-600 rounded-3xl flex items-center justify-center mx-auto group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-2xl">
-                        <MessageCircle className="w-12 h-12 text-white drop-shadow-lg" />
-                      </div>
-                      <div className="absolute -top-2 -right-2 w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                        <span className="text-xs font-bold text-white">AI</span>
-                      </div>
-                    </div>
-                    
-                    {/* Content */}
-                    <div className="space-y-4">
-                      <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-primary-300 transition-colors duration-300">
-                        {t('home.features.ai.title')}
-                      </h3>
-                      <p className="text-white/70 leading-relaxed text-base group-hover:text-white/90 transition-colors duration-300">
-                        {t('home.features.ai.description')}
-                      </p>
-                    </div>
-                  </div>
-                </div>
+            <div className="group py-10 md:py-0 md:px-14">
+              <div className="w-10 h-10 rounded-xl bg-teal-400/10 flex items-center justify-center mb-7 group-hover:bg-teal-400/15 transition-colors duration-300">
+                <MessageCircle className="w-5 h-5 text-teal-400" />
               </div>
+              <h3 className="text-white font-semibold text-lg mb-3">
+                {t('home.features.ai.title')}
+              </h3>
+              <p className="text-white/45 text-sm leading-relaxed">
+                {t('home.features.ai.description')}
+              </p>
             </div>
 
-            {/* Card 3 - Privacy */}
-            <div className="group relative">
-              <div className="relative">
-                {/* Glow Effect */}
-                <div className="absolute -inset-1 bg-gradient-to-r from-success-500 via-success-400 to-success-600 rounded-3xl blur opacity-0 group-hover:opacity-30 transition-opacity duration-500"></div>
-                
-                {/* Main Card */}
-                <div className="relative bg-white/10 backdrop-blur-xl rounded-3xl p-8 lg:p-10 border border-white/20 hover:border-white/30 transition-all duration-700 group-hover:scale-105 group-hover:-translate-y-3">
-                  <div className="text-center">
-                    {/* Icon Container */}
-                    <div className="relative mb-8">
-                      <div className="w-24 h-24 bg-gradient-to-br from-success-400 via-success-500 to-success-600 rounded-3xl flex items-center justify-center mx-auto group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-2xl">
-                        <Shield className="w-12 h-12 text-white drop-shadow-lg" />
-                      </div>
-                      <div className="absolute -top-2 -right-2 w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
-                        <span className="text-xs font-bold text-white">100%</span>
-                      </div>
-                    </div>
-                    
-                    {/* Content */}
-                    <div className="space-y-4">
-                      <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-success-300 transition-colors duration-300">
-                        {t('home.features.privacy.title')}
-                      </h3>
-                      <p className="text-white/70 leading-relaxed text-base group-hover:text-white/90 transition-colors duration-300">
-                        {t('home.features.privacy.description')}
-                      </p>
-                    </div>
-                  </div>
-                </div>
+            <div className="group py-10 md:py-0 md:pl-14">
+              <div className="w-10 h-10 rounded-xl bg-emerald-400/10 flex items-center justify-center mb-7 group-hover:bg-emerald-400/15 transition-colors duration-300">
+                <Shield className="w-5 h-5 text-emerald-400" />
               </div>
+              <h3 className="text-white font-semibold text-lg mb-3">
+                {t('home.features.privacy.title')}
+              </h3>
+              <p className="text-white/45 text-sm leading-relaxed">
+                {t('home.features.privacy.description')}
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* How Avicenna Works Section - Ultra Modern */}
-      <section className="relative py-24 md:py-40 overflow-hidden">
-        {/* Dynamic Background */}
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-br from-white via-slate-50 to-primary-50"></div>
-          <div className="absolute inset-0 bg-gradient-to-tr from-primary-100/30 via-transparent to-accent-100/30"></div>
-          <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_20%_30%,rgba(13,148,136,0.05),transparent_50%)]"></div>
-          <div className="absolute bottom-0 right-0 w-full h-full bg-[radial-gradient(circle_at_80%_70%,rgba(245,158,11,0.05),transparent_50%)]"></div>
-        </div>
-        
-        {/* Floating Elements */}
-        <div className="absolute top-32 right-20 w-24 h-24 bg-primary-200/20 rounded-full blur-lg animate-float"></div>
-        <div className="absolute bottom-32 left-20 w-32 h-32 bg-accent-200/20 rounded-full blur-lg animate-float" style={{animationDelay: '3s'}}></div>
-        
-        {/* Content */}
-        <div className="relative z-10 container mx-auto px-4">
-          {/* Hero Header */}
-          <div className="text-center mb-20 md:mb-24">
-            <div className="inline-flex items-center px-6 py-3 bg-primary-100/50 backdrop-blur-md rounded-full text-primary-700 text-sm font-medium mb-8 border border-primary-200/50">
-              <div className="w-2 h-2 bg-gradient-to-r from-primary-500 to-primary-600 rounded-full mr-3 animate-pulse"></div>
-              How It Works
-            </div>
-            <h2 className="text-4xl md:text-6xl lg:text-7xl font-display font-bold text-slate-900 mb-8 leading-[0.9] tracking-tight">
-              <span className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-700 bg-clip-text text-transparent">
-                {t('home.howItWorks.title')}
-              </span>
+      {/* How It Works */}
+      <section className="py-24 md:py-32 bg-white">
+        <div className="container mx-auto px-6 max-w-6xl">
+          {/* Centered header */}
+          <div className="text-center mb-20">
+            <span className="block text-teal-600 text-xs font-bold tracking-[0.2em] uppercase mb-5">
+              Process
+            </span>
+            <h2 className="text-3xl md:text-5xl font-display font-bold text-slate-900">
+              {t('home.howItWorks.title')}
             </h2>
-            <p className="text-xl md:text-2xl text-slate-600 max-w-4xl mx-auto leading-relaxed font-light">
+            <p className="mt-5 text-slate-500 text-base leading-relaxed max-w-md mx-auto">
               {t('home.howItWorks.subtitle')}
             </p>
           </div>
 
-          {/* Premium Process Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12 max-w-7xl mx-auto">
-            {/* Step 1 - Input Symptoms */}
-            <div className="group relative">
-              <div className="relative">
-                {/* Glow Effect */}
-                <div className="absolute -inset-1 bg-gradient-to-r from-primary-500 via-primary-400 to-primary-600 rounded-3xl blur opacity-0 group-hover:opacity-20 transition-opacity duration-500"></div>
-                
-                {/* Main Card */}
-                <div className="relative bg-white/80 backdrop-blur-xl rounded-3xl p-8 lg:p-10 border border-slate-200/50 hover:border-primary-300/50 transition-all duration-700 group-hover:scale-105 group-hover:-translate-y-3 shadow-xl hover:shadow-2xl">
-                  <div className="text-center">
-                    {/* Step Number */}
-                    <div className="absolute -top-4 -left-4 w-12 h-12 bg-gradient-to-br from-primary-500 to-primary-600 rounded-2xl flex items-center justify-center shadow-lg">
-                      <span className="text-lg font-bold text-white">1</span>
-                    </div>
-                    
-                    {/* Icon Container */}
-                    <div className="relative mb-8">
-                      <div className="w-24 h-24 bg-gradient-to-br from-primary-400 via-primary-500 to-primary-600 rounded-3xl flex items-center justify-center mx-auto group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-2xl">
-                        <svg className="w-12 h-12 text-white drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                        </svg>
-                      </div>
-                    </div>
-                    
-                    {/* Content */}
-                    <div className="space-y-4">
-                      <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary-600 to-primary-700 bg-clip-text text-transparent mb-2">
-                        Input
-                      </div>
-                      <h3 className="text-2xl font-bold text-slate-900 mb-4 group-hover:text-primary-700 transition-colors duration-300">
-                        {t('home.howItWorks.step1.title')}
-                      </h3>
-                      <p className="text-slate-600 leading-relaxed text-base group-hover:text-slate-700 transition-colors duration-300">
-                        {t('home.howItWorks.step1.description')}
-                      </p>
-                    </div>
-                  </div>
-                </div>
+          {/* Steps with connector line */}
+          <div className="relative grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-6">
+            {/* Horizontal connector line (desktop only) */}
+            <div
+              className="hidden md:block absolute h-px bg-slate-100"
+              style={{ top: '32px', left: '16.67%', right: '16.67%' }}
+            />
+
+            {/* Step 1 */}
+            <div className="flex flex-col items-center text-center relative">
+              <div className="relative z-10 w-16 h-16 rounded-full bg-white border border-slate-200 shadow-sm flex items-center justify-center mb-8">
+                <span className="text-xl font-bold text-slate-300">01</span>
               </div>
+              <h3 className="font-semibold text-slate-900 text-lg mb-3">
+                {t('home.howItWorks.step1.title')}
+              </h3>
+              <p className="text-slate-500 text-sm leading-relaxed max-w-xs">
+                {t('home.howItWorks.step1.description')}
+              </p>
             </div>
 
-            {/* Step 2 - AI Analysis */}
-            <div className="group relative">
-              <div className="relative">
-                {/* Glow Effect */}
-                <div className="absolute -inset-1 bg-gradient-to-r from-accent-500 via-accent-400 to-accent-600 rounded-3xl blur opacity-0 group-hover:opacity-20 transition-opacity duration-500"></div>
-                
-                {/* Main Card */}
-                <div className="relative bg-white/80 backdrop-blur-xl rounded-3xl p-8 lg:p-10 border border-slate-200/50 hover:border-accent-300/50 transition-all duration-700 group-hover:scale-105 group-hover:-translate-y-3 shadow-xl hover:shadow-2xl">
-                  <div className="text-center">
-                    {/* Step Number */}
-                    <div className="absolute -top-4 -left-4 w-12 h-12 bg-gradient-to-br from-accent-500 to-accent-600 rounded-2xl flex items-center justify-center shadow-lg">
-                      <span className="text-lg font-bold text-white">2</span>
-                    </div>
-                    
-                    {/* Icon Container */}
-                    <div className="relative mb-8">
-                      <div className="w-24 h-24 bg-gradient-to-br from-accent-400 via-accent-500 to-accent-600 rounded-3xl flex items-center justify-center mx-auto group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-2xl">
-                        <MessageCircle className="w-12 h-12 text-white drop-shadow-lg" />
-                      </div>
-                    </div>
-                    
-                    {/* Content */}
-                    <div className="space-y-4">
-                      <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-accent-600 to-accent-700 bg-clip-text text-transparent mb-2">
-                        Analyze
-                      </div>
-                      <h3 className="text-2xl font-bold text-slate-900 mb-4 group-hover:text-accent-700 transition-colors duration-300">
-                        {t('home.howItWorks.step2.title')}
-                      </h3>
-                      <p className="text-slate-600 leading-relaxed text-base group-hover:text-slate-700 transition-colors duration-300">
-                        {t('home.howItWorks.step2.description')}
-                      </p>
-                    </div>
-                  </div>
-                </div>
+            {/* Step 2 */}
+            <div className="flex flex-col items-center text-center relative">
+              <div className="relative z-10 w-16 h-16 rounded-full bg-teal-600 shadow-md shadow-teal-100 flex items-center justify-center mb-8">
+                <span className="text-xl font-bold text-white">02</span>
               </div>
+              <h3 className="font-semibold text-slate-900 text-lg mb-3">
+                {t('home.howItWorks.step2.title')}
+              </h3>
+              <p className="text-slate-500 text-sm leading-relaxed max-w-xs">
+                {t('home.howItWorks.step2.description')}
+              </p>
             </div>
 
-            {/* Step 3 - Get Results */}
-            <div className="group relative">
-              <div className="relative">
-                {/* Glow Effect */}
-                <div className="absolute -inset-1 bg-gradient-to-r from-success-500 via-success-400 to-success-600 rounded-3xl blur opacity-0 group-hover:opacity-20 transition-opacity duration-500"></div>
-                
-                {/* Main Card */}
-                <div className="relative bg-white/80 backdrop-blur-xl rounded-3xl p-8 lg:p-10 border border-slate-200/50 hover:border-success-300/50 transition-all duration-700 group-hover:scale-105 group-hover:-translate-y-3 shadow-xl hover:shadow-2xl">
-                  <div className="text-center">
-                    {/* Step Number */}
-                    <div className="absolute -top-4 -left-4 w-12 h-12 bg-gradient-to-br from-success-500 to-success-600 rounded-2xl flex items-center justify-center shadow-lg">
-                      <span className="text-lg font-bold text-white">3</span>
-                    </div>
-                    
-                    {/* Icon Container */}
-                    <div className="relative mb-8">
-                      <div className="w-24 h-24 bg-gradient-to-br from-success-400 via-success-500 to-success-600 rounded-3xl flex items-center justify-center mx-auto group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-2xl">
-                        <svg className="w-12 h-12 text-white drop-shadow-lg" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                      </div>
-                    </div>
-                    
-                    {/* Content */}
-                    <div className="space-y-4">
-                      <div className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-success-600 to-success-700 bg-clip-text text-transparent mb-2">
-                        Results
-                      </div>
-                      <h3 className="text-2xl font-bold text-slate-900 mb-4 group-hover:text-success-700 transition-colors duration-300">
-                        {t('home.howItWorks.step3.title')}
-                      </h3>
-                      <p className="text-slate-600 leading-relaxed text-base group-hover:text-slate-700 transition-colors duration-300">
-                        {t('home.howItWorks.step3.description')}
-                      </p>
-                    </div>
-                  </div>
-                </div>
+            {/* Step 3 */}
+            <div className="flex flex-col items-center text-center relative">
+              <div className="relative z-10 w-16 h-16 rounded-full bg-white border border-slate-200 shadow-sm flex items-center justify-center mb-8">
+                <span className="text-xl font-bold text-slate-300">03</span>
               </div>
+              <h3 className="font-semibold text-slate-900 text-lg mb-3">
+                {t('home.howItWorks.step3.title')}
+              </h3>
+              <p className="text-slate-500 text-sm leading-relaxed max-w-xs">
+                {t('home.howItWorks.step3.description')}
+              </p>
             </div>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="bg-gradient-to-r from-primary-600 to-primary-700 py-20">
-        <div className="container mx-auto px-4 text-center">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-display font-bold text-white mb-6">
-              {t('home.ctaSection.ready')}
-            </h2>
-            <p className="text-xl text-primary-100 mb-8 leading-relaxed">
-              {t('home.ctaSection.joinThousands')}
-            </p>
-            <Link 
-              to="/chat" 
-              className="inline-flex items-center justify-center px-8 py-4 bg-white text-primary-700 font-bold text-lg rounded-full shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 hover:bg-primary-50"
-            >
-              {t('home.ctaSection.getStarted')}
-              <svg className="ml-2 w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-              </svg>
-            </Link>
-          </div>
+      <section className="py-24 md:py-32 bg-slate-950 relative overflow-hidden">
+        {/* Amber accent line at top */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-px bg-gradient-to-r from-transparent via-amber-400/60 to-transparent" />
+
+        <div className="container mx-auto px-6 max-w-3xl text-center">
+          <h2 className="text-4xl md:text-6xl font-display font-bold text-white mb-6 leading-tight">
+            {t('home.ctaSection.ready')}
+          </h2>
+          <p className="text-white/45 text-lg mb-10 leading-relaxed">
+            {t('home.ctaSection.joinThousands')}
+          </p>
+          <Link
+            to="/chat"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-amber-400 hover:bg-amber-300 text-slate-900 font-bold text-base rounded-full transition-colors duration-200"
+          >
+            {t('home.ctaSection.getStarted')}
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          </Link>
         </div>
       </section>
     </div>
