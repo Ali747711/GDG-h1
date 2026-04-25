@@ -2,6 +2,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './contexts/FirebaseAuthContext';
 import SessionWarning from './components/SessionWarning';
 import SessionTimeoutNotification from './components/SessionTimeoutNotification';
+import { Toaster } from '@/components/ui/sonner';
+import { TooltipProvider } from '@/components/ui/tooltip';
 import './styles/App.css';
 
 // Import pages
@@ -15,20 +17,23 @@ import MedicalHistory from './pages/MedicalHistory';
 function App() {
   return (
     <AuthProvider>
-      <Router>
-        <div className="App">
-          <SessionWarning />
-          <SessionTimeoutNotification />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/chat" element={<Chat />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/auth" element={<Auth />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/medical-history" element={<MedicalHistory />} />
-          </Routes>
-        </div>
-      </Router>
+      <TooltipProvider>
+        <Router>
+          <div className="App">
+            <SessionWarning />
+            <SessionTimeoutNotification />
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/chat" element={<Chat />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/auth" element={<Auth />} />
+              <Route path="/profile" element={<Profile />} />
+              <Route path="/medical-history" element={<MedicalHistory />} />
+            </Routes>
+            <Toaster />
+          </div>
+        </Router>
+      </TooltipProvider>
     </AuthProvider>
   )
 }

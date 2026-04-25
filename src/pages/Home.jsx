@@ -6,6 +6,7 @@ import LanguageSelector from '../components/LanguageSelector';
 import SunIcon from '../components/SunIcon';
 import heroImage from '../assets/icons/mind-hero.jpg';
 import { useAuth } from '../contexts/FirebaseAuthContext';
+import { Button } from '@/components/ui/button';
 
 const Home = () => {
   const { t } = useTranslation();
@@ -26,17 +27,17 @@ const Home = () => {
                   {t('home.title')}
                 </span>
               </div>
-              
+
               {/* Desktop Navigation */}
               <div className="hidden md:flex items-center space-x-8">
-                <Link 
-                  to="/" 
+                <Link
+                  to="/"
                   className="nav-link active text-white font-medium"
                 >
                   {t('nav.home')}
                 </Link>
-                <Link 
-                  to="/about" 
+                <Link
+                  to="/about"
                   className="nav-link text-white/90 hover:text-white font-medium"
                 >
                   {t('nav.about')}
@@ -49,13 +50,13 @@ const Home = () => {
                     <div className="text-white/90 text-sm">
                       {t('common.hello')}, {userProfile?.name || user?.displayName || 'User'}
                     </div>
-                    <Link 
-                      to="/profile" 
+                    <Link
+                      to="/profile"
                       className="nav-button bg-white/10 backdrop-blur-sm text-white border border-white/20 px-4 py-2 rounded-full hover:bg-white/20 hover:border-white/30 font-medium text-sm"
                     >
                       {t('common.profile')}
                     </Link>
-                    <button 
+                    <button
                       onClick={signOut}
                       className="nav-button bg-white/10 backdrop-blur-sm text-white border border-white/20 px-4 py-2 rounded-full hover:bg-white/20 hover:border-white/30 font-medium text-sm"
                     >
@@ -63,8 +64,8 @@ const Home = () => {
                     </button>
                   </div>
                 ) : (
-                  <Link 
-                    to="/auth" 
+                  <Link
+                    to="/auth"
                     className="nav-button bg-white/10 backdrop-blur-sm text-white border border-white/20 px-6 py-2.5 rounded-full hover:bg-white/20 hover:border-white/30 font-medium"
                   >
                     {t('nav.signIn')}
@@ -89,15 +90,15 @@ const Home = () => {
             {isMenuOpen && (
               <div className="md:hidden mt-6 pt-6 border-t border-white/20">
                 <div className="flex flex-col space-y-3">
-                  <Link 
-                    to="/" 
+                  <Link
+                    to="/"
                     className="mobile-btn text-white font-medium transition-all duration-300 py-4 px-4 rounded-xl bg-white/10 scale-105 touch-manipulation min-h-[48px] flex items-center"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     {t('nav.home')}
                   </Link>
-                  <Link 
-                    to="/about" 
+                  <Link
+                    to="/about"
                     className="mobile-btn text-white/90 hover:text-white font-medium transition-all duration-300 py-4 px-4 rounded-xl hover:bg-white/10 hover:scale-105 active:scale-95 touch-manipulation min-h-[48px] flex items-center"
                     onClick={() => setIsMenuOpen(false)}
                   >
@@ -111,14 +112,14 @@ const Home = () => {
                       <div className="px-4 py-2 text-white/90 text-sm">
                         {t('common.hello')}, {userProfile?.name || user?.displayName || 'User'}
                       </div>
-                      <Link 
-                        to="/profile" 
+                      <Link
+                        to="/profile"
                         className="mobile-btn bg-white/10 backdrop-blur-sm text-white border border-white/20 px-6 py-4 rounded-full hover:bg-white/20 hover:border-white/30 hover:scale-105 active:scale-95 hover:shadow-lg transition-all duration-300 font-medium text-center min-h-[48px] flex items-center justify-center touch-manipulation"
                         onClick={() => setIsMenuOpen(false)}
                       >
                         {t('common.profile')}
                       </Link>
-                      <button 
+                      <button
                         onClick={() => {
                           signOut();
                           setIsMenuOpen(false);
@@ -129,8 +130,8 @@ const Home = () => {
                       </button>
                     </>
                   ) : (
-                    <Link 
-                      to="/auth" 
+                    <Link
+                      to="/auth"
                       className="mobile-btn bg-white/10 backdrop-blur-sm text-white border border-white/20 px-6 py-4 rounded-full hover:bg-white/20 hover:border-white/30 hover:scale-105 active:scale-95 hover:shadow-lg transition-all duration-300 font-medium text-center min-h-[48px] flex items-center justify-center touch-manipulation"
                       onClick={() => setIsMenuOpen(false)}
                     >
@@ -148,9 +149,9 @@ const Home = () => {
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
-          <img 
-            src={heroImage} 
-            alt="AI Healthcare Background" 
+          <img
+            src={heroImage}
+            alt="AI Healthcare Background"
             className="w-full h-full object-cover"
             loading="eager"
           />
@@ -174,7 +175,7 @@ const Home = () => {
               <span className="sm:hidden"> </span>
               {t('home.hero.withTrustedAI')}
             </h1>
-            
+
             {/* Subtext */}
             <p className="text-sm md:text-lg lg:text-xl text-white/90 leading-relaxed max-w-3xl mx-auto font-medium animate-slide-up delay-200 mobile-text-sm md:text-lg px-2 md:px-0">
               {t('home.hero.multilingualCompanion')}{' '}
@@ -185,11 +186,11 @@ const Home = () => {
               <span className="md:hidden"> — </span>
               <span className="hidden md:inline">— </span>{t('home.hero.designedFor')}
             </p>
-            
+
             {/* CTA Button */}
             <div className="animate-fade-in delay-300 pt-2">
-              <Link 
-                to="/chat" 
+              <Link
+                to="/chat"
                 className="mobile-btn group inline-flex items-center justify-center px-6 py-4 md:px-8 md:py-4 bg-gradient-to-r from-yellow-400 to-amber-500 text-white font-bold text-base md:text-lg rounded-full shadow-2xl hover:shadow-3xl transform hover:scale-105 active:scale-95 transition-all duration-300 hover:from-yellow-300 hover:to-amber-400 min-h-[52px] touch-manipulation"
               >
                 <span>{t('home.cta')}</span>
@@ -198,7 +199,7 @@ const Home = () => {
                 </svg>
               </Link>
             </div>
-            
+
             {/* Trust Indicators */}
             <div className="flex flex-wrap items-center justify-center gap-2 md:gap-4 lg:gap-6 text-white/90 animate-fade-in delay-400 px-2">
               <div className="flex items-center space-x-1.5 md:space-x-2 bg-white/10 backdrop-blur-sm rounded-full px-2.5 py-1.5 md:px-3 md:py-2">
@@ -219,6 +220,7 @@ const Home = () => {
                 </svg>
                 <span className="text-xs md:text-sm font-medium whitespace-nowrap">Privacy protected</span>
               </div>
+              {/* <Button>shadcn button</Button> */}
             </div>
           </div>
         </div>

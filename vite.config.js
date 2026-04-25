@@ -1,6 +1,7 @@
 import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
+import { fileURLToPath, URL } from "node:url";
 
 export default defineConfig(({ mode }) => {
   // Load ALL env vars (including non-VITE_ ones like GEMINI_API_KEY) into process.env
@@ -8,6 +9,11 @@ export default defineConfig(({ mode }) => {
   Object.assign(process.env, env);
 
   return {
+    resolve: {
+      alias: {
+        "@": fileURLToPath(new URL("./src", import.meta.url)),
+      },
+    },
     plugins: [
       react(),
       tailwindcss(),
